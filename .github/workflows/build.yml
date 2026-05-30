@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    retention-days: 1
 
     steps:
     - name: Checkout code
@@ -34,3 +33,4 @@ jobs:
       with:
         name: WaveTrumpet-Release
         path: WaveTrumpet/Build/Release/
+        retention-days: 1
