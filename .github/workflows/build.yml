@@ -1,0 +1,35 @@
+name: WaveTrumpet CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+
+    - name: Restore NuGet packages
+      run: nuget restore WaveTrumpet/WaveTrumpet.sln
+
+    - name: Build (Release|x86)
+      run: msbuild WaveTrumpet/WaveTrumpet.sln /p:Configuration=Release /p:Platform=x86 /m
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: WaveTrumpet-Release
+        path: WaveTrumpet/Build/Release/
