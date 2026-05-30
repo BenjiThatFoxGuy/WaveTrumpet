@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build (Debug)",
+      "command": "msbuild",
+      "type": "process",
+      "args": [
+        "${workspaceFolder}/WaveTrumpet.sln",
+        "/p:Configuration=Debug",
+        "/p:Platform=x86",
+        "/m"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "build (Release)",
+      "command": "msbuild",
+      "type": "process",
+      "args": [
+        "${workspaceFolder}/WaveTrumpet.sln",
+        "/p:Configuration=Release",
+        "/p:Platform=x86",
+        "/m"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

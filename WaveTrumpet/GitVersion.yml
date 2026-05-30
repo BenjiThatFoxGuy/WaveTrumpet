@@ -1,0 +1,17 @@
+mode: ContinuousDeployment
+branches:
+  master:
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+  feature:
+    increment: Minor
+    source-branches: ['master', 'develop']
+  develop:
+    increment: Minor
+  pull-request:
+    increment: Minor
+  hotfix:
+    increment: Patch
+ignore:
+  sha: []
+  commits-before: 2026-01-01T00:00:00

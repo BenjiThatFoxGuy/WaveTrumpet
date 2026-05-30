@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug WaveTrumpet",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build (Debug)",
+      "program": "${workspaceFolder}/Build/Debug/WaveTrumpet.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": "Debug WaveTrumpet (Release)",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build (Release)",
+      "program": "${workspaceFolder}/Build/Release/WaveTrumpet.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    }
+  ]
+}
