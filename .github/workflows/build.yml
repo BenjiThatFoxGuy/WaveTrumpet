@@ -23,13 +23,13 @@ jobs:
       uses: NuGet/setup-nuget@v1
 
     - name: Restore NuGet packages
-      run: nuget restore WaveTrumpet/WaveTrumpet.sln
+      run: nuget restore WaveTrumpet.sln
 
     - name: Build (Release|x86)
-      run: msbuild WaveTrumpet/WaveTrumpet.sln /p:Configuration=Release /p:Platform=x86 /m
+      run: msbuild WaveTrumpet.sln /p:Configuration=Release /p:Platform=x86 /m
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: WaveTrumpet-Release
         path: WaveTrumpet/Build/Release/
