@@ -1,0 +1,106 @@
+<Window x:Class="WaveTrumpet.UI.Views.FlyoutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:WaveTrumpet.UI.Controls"
+        Title="WaveTrumpet"
+        Width="360"
+        SizeToContent="Height"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        Deactivated="OnWindowDeactivated"
+        PreviewKeyDown="OnWindowPreviewKeyDown">
+  <Border CornerRadius="12"
+          BorderThickness="1"
+          BorderBrush="{DynamicResource ThemeFlyoutBorderBrush}"
+          Background="{DynamicResource ThemeFlyoutBackgroundBrush}"
+          Padding="16">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="12" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+          <TextBlock Text="{Binding Header}" Style="{StaticResource FlyoutTitleTextStyle}" />
+          <TextBlock Text="{Binding Subtitle}" Style="{StaticResource FlyoutSecondaryTextStyle}" Margin="0,2,0,0" />
+        </StackPanel>
+
+        <Button Grid.Column="1"
+                Content="✕"
+                Width="28"
+                Height="28"
+                Style="{StaticResource FlyoutButtonStyle}"
+                Click="OnCloseButtonClick" />
+      </Grid>
+
+      <ItemsControl Grid.Row="2" ItemsSource="{Binding Devices}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border BorderBrush="{DynamicResource ThemeFlyoutBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Background="{DynamicResource ThemeFlyoutChromeBrush}"
+                    Padding="12"
+                    Margin="0,0,0,10">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="48" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="48" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ToggleButton Grid.RowSpan="2"
+                              Width="36"
+                              Height="36"
+                              Margin="0,0,12,0"
+                              Style="{StaticResource FlyoutIconButtonStyle}"
+                              IsChecked="{Binding IsMuted, Mode=TwoWay}">
+                  <TextBlock Text="{Binding IconGlyph}"
+                             FontFamily="Segoe MDL2 Assets"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center" />
+                </ToggleButton>
+
+                <TextBlock Grid.Column="1"
+                           Text="{Binding DisplayName}"
+                           Style="{StaticResource FlyoutBodyTextStyle}"
+                           VerticalAlignment="Center" />
+
+                <TextBlock Grid.Column="2"
+                           Text="{Binding VolumeText}"
+                           Style="{StaticResource FlyoutBodyTextStyle}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+
+                <controls:VolumeSlider Grid.Row="1"
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       Margin="0,10,0,0"
+                                       Height="32"
+                                       Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       PeakLeft="{Binding PeakValueLeft}"
+                                       PeakRight="{Binding PeakValueRight}"
+                                       IsMuted="{Binding IsMuted}" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Grid>
+  </Border>
+</Window>

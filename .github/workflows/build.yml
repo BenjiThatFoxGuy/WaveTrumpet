@@ -32,5 +32,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: WaveTrumpet-Release
-        path: WaveTrumpet/Build/Release/
+        path: Build/Release/
         retention-days: 1

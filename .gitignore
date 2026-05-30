@@ -1,0 +1,8 @@
+/.claude/worktrees
+/.vs/
+/packages/
+/Build/
+/WaveTrumpet/bin/
+/WaveTrumpet/obj/
+*.user
+*.suo
