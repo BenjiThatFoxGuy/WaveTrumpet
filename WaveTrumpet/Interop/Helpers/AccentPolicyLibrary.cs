@@ -1,3 +1,4 @@
+using System.Windows;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -55,3 +56,5 @@ namespace WaveTrumpet.Interop.Helpers
         }
     }
 }
+
+

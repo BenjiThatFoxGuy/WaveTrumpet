@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Media;
 
 namespace WaveTrumpet.Extensions
@@ -14,3 +15,5 @@ namespace WaveTrumpet.Extensions
         public static double DpiX(this Visual visual) => CalculateDpi(visual).M11;
     }
 }
+
+
