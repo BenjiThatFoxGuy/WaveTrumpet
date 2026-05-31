@@ -27,3 +27,5 @@ namespace WaveTrumpet.UI.ViewModels
 
         public ObservableCollection<DeviceViewModel> Devices { get; private set; }
     }
+}
+
