@@ -18,28 +18,30 @@
   <Border BorderThickness="1"
           BorderBrush="{DynamicResource ThemeFlyoutBorderBrush}"
           Background="{DynamicResource ThemeFlyoutBackgroundBrush}">
-    <Grid>
+    <Grid x:Name="LayoutRoot">
       <Grid.RowDefinitions>
-        <RowDefinition Height="44" />
+        <RowDefinition Height="32" />
         <RowDefinition Height="Auto" />
+        <RowDefinition Height="34" />
       </Grid.RowDefinitions>
 
-      <Grid Grid.Row="0">
+      <Grid Grid.Row="0" Background="{DynamicResource ThemeHeaderBackgroundBrush}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Margin="12,0,0,0"
+        <TextBlock Margin="8,0,8,0"
                    Text="{Binding Header}"
                    Style="{StaticResource FlyoutWindowTitleTextStyle}" />
 
         <Button Grid.Column="1"
+                Margin="0,2,2,2"
                 Style="{StaticResource FlyoutCaptionButtonStyle}"
                 Click="OnCloseButtonClick">
           <TextBlock Style="{StaticResource FlyoutGlyphTextStyle}"
                      FontSize="10"
-                     Text="&#xE711;" />
+                     Text="&#xE70D;" />
         </Button>
       </Grid>
 
@@ -49,60 +51,91 @@
             <Border BorderBrush="{DynamicResource ThemeFlyoutSeparatorBrush}"
                     BorderThickness="0,0,0,1"
                     Background="Transparent">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="44" />
-                  <RowDefinition Height="54" />
-                </Grid.RowDefinitions>
+              <Grid Height="32">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="36" />
+                  <ColumnDefinition Width="120" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="36" />
+                  <ColumnDefinition Width="16" />
+                </Grid.ColumnDefinitions>
 
-                <Border Height="44"
-                        Background="{DynamicResource ThemeDeviceHeaderBackgroundBrush}">
-                  <TextBlock Margin="12,0,32,0"
-                             Text="{Binding DisplayName}"
-                             Style="{StaticResource FlyoutDeviceTitleTextStyle}" />
-                </Border>
+                <ToggleButton Grid.Column="0"
+                              Margin="6,0,0,0"
+                              HorizontalAlignment="Left"
+                              Style="{StaticResource FlyoutMuteButtonStyle}"
+                              IsChecked="{Binding IsMuted, Mode=TwoWay}">
+                  <TextBlock Text="{Binding IconGlyph}"
+                             Style="{StaticResource FlyoutGlyphTextStyle}"
+                             FontSize="14"
+                             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}" />
+                </ToggleButton>
 
-                <Grid Grid.Row="1" Height="{DynamicResource Mutable_DeviceItemCellHeight}">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{DynamicResource Mutable_IconCellWidth}" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="{DynamicResource Mutable_VolumeCellWidth}" />
-                  </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1"
+                           Margin="4,0,8,0"
+                           Text="{Binding DisplayName}"
+                           Style="{StaticResource FlyoutDeviceTitleTextStyle}" />
 
-                  <ToggleButton Width="{DynamicResource Mutable_AppIconSize}"
-                                Height="{DynamicResource Mutable_AppIconSize}"
-                                Margin="5,0,0,0"
-                                HorizontalAlignment="Center"
-                                Style="{StaticResource FlyoutMuteButtonStyle}"
-                                IsChecked="{Binding IsMuted, Mode=TwoWay}">
-                    <Grid>
-                      <TextBlock Text="{Binding BaseIconGlyph}"
-                                 Style="{StaticResource FlyoutGlyphTextStyle}"
-                                 FontSize="{DynamicResource Mutable_DeviceVolumeTextFontSize}"
-                                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
-                                 Opacity="0.4" />
-                      <TextBlock Text="{Binding IconGlyph}"
-                                 Style="{StaticResource FlyoutGlyphTextStyle}"
-                                 FontSize="{DynamicResource Mutable_DeviceVolumeTextFontSize}"
-                                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}" />
-                    </Grid>
-                  </ToggleButton>
+                <controls:VolumeSlider Grid.Column="2"
+                                       Margin="4,0,8,0"
+                                       PeakLeft="{Binding PeakValueLeft}"
+                                       PeakRight="{Binding PeakValueRight}"
+                                       Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       IsMuted="{Binding IsMuted}" />
 
-                  <controls:VolumeSlider Grid.Column="1"
-                                         PeakLeft="{Binding PeakValueLeft}"
-                                         PeakRight="{Binding PeakValueRight}"
-                                         Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         IsMuted="{Binding IsMuted}" />
+                <TextBlock Grid.Column="3"
+                           Text="{Binding VolumeText}"
+                           Style="{StaticResource FlyoutDeviceVolumeTextStyle}" />
 
-                  <TextBlock Grid.Column="2"
-                             Text="{Binding VolumeText}"
-                             Style="{StaticResource FlyoutDeviceVolumeTextStyle}" />
-                </Grid>
+                <TextBlock Grid.Column="4"
+                           Text="&#xE70D;"
+                           Style="{StaticResource FlyoutGlyphTextStyle}"
+                           FontSize="8"
+                           Foreground="{DynamicResource ThemeSecondaryTextBrush}" />
               </Grid>
             </Border>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>
+
+      <Grid Grid.Row="2" Background="{DynamicResource ThemeFooterBackgroundBrush}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Column="0"
+                HorizontalContentAlignment="Left"
+                Style="{StaticResource FlyoutFooterButtonStyle}">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="&#xE8B7;"
+                       Style="{StaticResource FlyoutGlyphTextStyle}"
+                       Foreground="{DynamicResource ThemeFooterIconBrush}"
+                       FontSize="12" />
+            <TextBlock Margin="6,0,0,0"
+                       Text="Open Wave Link"
+                       Foreground="{DynamicResource ThemeTextBrush}"
+                       FontSize="11"
+                       VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+
+        <Button Grid.Column="1"
+                HorizontalContentAlignment="Right"
+                Style="{StaticResource FlyoutFooterButtonStyle}">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="&#xE90F;"
+                       Style="{StaticResource FlyoutGlyphTextStyle}"
+                       Foreground="{DynamicResource ThemeFooterIconBrush}"
+                       FontSize="12" />
+            <TextBlock Margin="6,0,8,0"
+                       Text="Mixer"
+                       Foreground="{DynamicResource ThemeTextBrush}"
+                       FontSize="11"
+                       VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+      </Grid>
     </Grid>
   </Border>
 </Window>

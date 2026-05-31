@@ -22,14 +22,8 @@ namespace WaveTrumpet.UI.ViewModels
 
         public string Header
         {
-            get { return "WaveTrumpet"; }
-        }
-
-        public string Subtitle
-        {
-            get { return "Wave Link 2.0 PoC"; }
+            get { return "WaveTrumpet (Elgato Wave Link 2.0)"; }
         }
 
         public ObservableCollection<DeviceViewModel> Devices { get; private set; }
     }
-}

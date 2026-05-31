@@ -1,35 +1,37 @@
-using System.Windows;
+using System;
 using System.Windows.Media;
 
 namespace WaveTrumpet.UI.Themes
 {
     public class Manager
     {
+        public static Manager Current { get; private set; }
+
+        public event Action ThemeChanged;
+
         public Manager()
         {
-            Apply(Application.Current != null ? Application.Current.Resources : null);
+            Current = this;
         }
 
-        public void Apply(ResourceDictionary resources)
+        public Color ResolveRef(string key)
         {
-            if (resources == null)
+            switch (key)
             {
-                return;
+                case "AcrylicColor_Flyout":
+                    return Color.FromArgb(0xCC, 0x1B, 0x10, 0x27);
+                default:
+                    return Color.FromArgb(0xCC, 0x1B, 0x10, 0x27);
             }
-
-            SetBrush(resources, "ThemeFlyoutBackgroundBrush", Color.FromRgb(0x20, 0x20, 0x20));
-            SetBrush(resources, "ThemeFlyoutChromeBrush", Color.FromRgb(0x2A, 0x2A, 0x2A));
-            SetBrush(resources, "ThemeFlyoutBorderBrush", Color.FromRgb(0x3A, 0x3A, 0x3A));
-            SetBrush(resources, "ThemeAccentBrush", Color.FromRgb(0x5A, 0xA9, 0xFF));
-            SetBrush(resources, "ThemeTextBrush", Color.FromRgb(0xF4, 0xF4, 0xF4));
-            SetBrush(resources, "ThemeSecondaryTextBrush", Color.FromRgb(0xB5, 0xB5, 0xB5));
-            SetBrush(resources, "ThemeMutedBrush", Color.FromRgb(0x66, 0x66, 0x66));
-            SetBrush(resources, "ThemeSliderBackgroundBrush", Color.FromRgb(0x3B, 0x3B, 0x3B));
         }
 
-        private static void SetBrush(ResourceDictionary resources, string key, Color color)
+        public void RaiseThemeChanged()
         {
-            resources[key] = new SolidColorBrush(color);
+            var handler = ThemeChanged;
+            if (handler != null)
+            {
+                handler();
+            }
         }
     }
 }

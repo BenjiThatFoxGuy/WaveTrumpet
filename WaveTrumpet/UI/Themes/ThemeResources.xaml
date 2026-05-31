@@ -1,39 +1,46 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <SolidColorBrush x:Key="ThemeFlyoutBackgroundBrush" Color="#FF151515" />
-  <SolidColorBrush x:Key="ThemeFlyoutBorderBrush" Color="#FF2A2A2A" />
-  <SolidColorBrush x:Key="ThemeDeviceHeaderBackgroundBrush" Color="#335AA9FF" />
+  <SolidColorBrush x:Key="ThemeFlyoutBackgroundBrush" Color="#CC1B1027" />
+  <SolidColorBrush x:Key="ThemeFlyoutBorderBrush" Color="#664D2C74" />
+  <SolidColorBrush x:Key="ThemeHeaderBackgroundBrush" Color="#CC5E1FA9" />
+  <SolidColorBrush x:Key="ThemeFooterBackgroundBrush" Color="#CC4A187D" />
+  <SolidColorBrush x:Key="ThemeDeviceHeaderBackgroundBrush" Color="#1AFF66CC" />
   <SolidColorBrush x:Key="ThemeFlyoutHoverBrush" Color="#20FFFFFF" />
-  <SolidColorBrush x:Key="ThemeFlyoutPressedBrush" Color="#2FFFFFFF" />
-  <SolidColorBrush x:Key="ThemeFlyoutSeparatorBrush" Color="#22FFFFFF" />
-  <SolidColorBrush x:Key="ThemeAccentBrush" Color="#FF5AA9FF" />
+  <SolidColorBrush x:Key="ThemeFlyoutPressedBrush" Color="#30FFFFFF" />
+  <SolidColorBrush x:Key="ThemeFlyoutSeparatorBrush" Color="#1AFFFFFF" />
+  <SolidColorBrush x:Key="ThemeAccentBrush" Color="#B52DFF" />
   <SolidColorBrush x:Key="ThemeTextBrush" Color="#FFF5F5F5" />
-  <SolidColorBrush x:Key="ThemeSecondaryTextBrush" Color="#FFC6C6C6" />
+  <SolidColorBrush x:Key="ThemeSecondaryTextBrush" Color="#FFCEC8D8" />
   <SolidColorBrush x:Key="ThemeMutedBrush" Color="#FF8E8E8E" />
-  <SolidColorBrush x:Key="ThemeSliderBackgroundBrush" Color="#39FFFFFF" />
-  <SolidColorBrush x:Key="ThemeSliderPeakBrush" Color="#B3FFFFFF" />
+  <SolidColorBrush x:Key="ThemeSliderBackgroundBrush" Color="#3D7B5A99" />
+  <SolidColorBrush x:Key="ThemeSliderPeakBrush" Color="#80FFFFFF" />
   <SolidColorBrush x:Key="ThemeSliderThumbHoverBrush" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="ThemeFooterIconBrush" Color="#FFD8B9FF" />
+
+  <Thickness x:Key="FlyoutWindowMargin">12,0,12,0</Thickness>
+  <Thickness x:Key="DeviceOrAppIconMargin">5,0,0,0</Thickness>
+  <Thickness x:Key="VolumeTextMargin">-1,0,0,0</Thickness>
 
   <Style x:Key="FlyoutWindowTitleTextStyle" TargetType="{x:Type TextBlock}">
     <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
-    <Setter Property="FontSize" Value="{DynamicResource Mutable_LargeWindowTextFontSize}" />
+    <Setter Property="FontSize" Value="13" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="TextTrimming" Value="CharacterEllipsis" />
   </Style>
 
   <Style x:Key="FlyoutDeviceTitleTextStyle" TargetType="{x:Type TextBlock}">
     <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
-    <Setter Property="FontSize" Value="{DynamicResource Mutable_LargeWindowTextFontSize}" />
+    <Setter Property="FontSize" Value="13" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="TextTrimming" Value="CharacterEllipsis" />
   </Style>
 
   <Style x:Key="FlyoutDeviceVolumeTextStyle" TargetType="{x:Type TextBlock}">
     <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
-    <Setter Property="FontSize" Value="{DynamicResource Mutable_DeviceVolumeTextFontSize}" />
+    <Setter Property="FontSize" Value="13" />
     <Setter Property="HorizontalAlignment" Value="Center" />
     <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="Margin" Value="-1,0,0,0" />
+    <Setter Property="Margin" Value="{StaticResource VolumeTextMargin}" />
   </Style>
 
   <Style x:Key="FlyoutGlyphTextStyle" TargetType="{x:Type TextBlock}">
@@ -44,8 +51,8 @@
   </Style>
 
   <Style x:Key="FlyoutCaptionButtonStyle" TargetType="{x:Type Button}">
-    <Setter Property="Width" Value="{DynamicResource Mutable_DeviceTitleCellHeight}" />
-    <Setter Property="Height" Value="{DynamicResource Mutable_DeviceTitleCellHeight}" />
+    <Setter Property="Width" Value="28" />
+    <Setter Property="Height" Value="28" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Padding" Value="0" />
@@ -100,6 +107,31 @@
       </Trigger>
       <Trigger Property="IsChecked" Value="True">
         <Setter Property="Foreground" Value="{DynamicResource ThemeMutedBrush}" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style x:Key="FlyoutFooterButtonStyle" TargetType="{x:Type Button}">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="8,0" />
+    <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
+    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Button}">
+          <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+            <ContentPresenter VerticalAlignment="Center" RecognizesAccessKey="True" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="{DynamicResource ThemeFlyoutHoverBrush}" />
+      </Trigger>
+      <Trigger Property="IsPressed" Value="True">
+        <Setter Property="Background" Value="{DynamicResource ThemeFlyoutPressedBrush}" />
       </Trigger>
     </Style.Triggers>
   </Style>

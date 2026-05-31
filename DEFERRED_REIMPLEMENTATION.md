@@ -10,5 +10,7 @@ This file tracks anything temporarily removed or simplified during CI stabilizat
   - Follow-up: add real branded tray/app icon assets and restore project icon settings.
 - Secondary windows (`FullWindow`, `DialogWindow`, `SettingsWindow`) will be kept as minimal placeholders in the PoC.
   - Follow-up: flesh them out when those flows are implemented.
-- Theme infrastructure will be implemented as a minimal PoC subset rather than a full EarTrumpet-equivalent theme system.
-  - Follow-up: expand theme rules, acrylic behavior, and OS/high-contrast integration.
+- Theme infrastructure is no longer the earlier minimal subset; the flyout now uses an upstream-style acrylic/composition path focused on the Windows 10 target.
+  - Follow-up: continue replacing the remaining placeholder theme/model pieces with direct EarTrumpet-derived behavior where practical.
+- Current visual target is a Windows 10 acrylic-style flyout first.
+  - Follow-up: add a separate Windows 11 visual path later if needed without regressing the Windows 10 LTSC focus.
