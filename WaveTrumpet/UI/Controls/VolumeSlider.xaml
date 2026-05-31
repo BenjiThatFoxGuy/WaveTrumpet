@@ -1,36 +1,16 @@
 <UserControl x:Class="WaveTrumpet.UI.Controls.VolumeSlider"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             MinHeight="28">
-  <Grid>
-    <Border CornerRadius="4"
-            Background="{DynamicResource ThemeSliderBackgroundBrush}"
-            Height="8"
-            VerticalAlignment="Center" />
-
-    <ProgressBar x:Name="PeakBar"
-                 Minimum="0"
-                 Maximum="100"
-                 Height="8"
-                 VerticalAlignment="Center"
-                 Foreground="{DynamicResource ThemeAccentBrush}"
-                 Background="Transparent"
-                 Opacity="0.35"
-                 BorderThickness="0" />
-
-    <ProgressBar x:Name="VolumeBar"
-                 Minimum="0"
-                 Maximum="100"
-                 Height="8"
-                 VerticalAlignment="Center"
-                 Foreground="{DynamicResource ThemeAccentBrush}"
-                 Background="Transparent"
-                 BorderThickness="0" />
-
+             MinHeight="32">
+  <Grid Background="Transparent">
     <Slider x:Name="SliderPart"
             Minimum="0"
             Maximum="100"
-            Background="Transparent"
-            ValueChanged="OnSliderValueChanged" />
+            Style="{StaticResource SliderPartStyle}"
+            ValueChanged="OnSliderValueChanged"
+            PreviewMouseLeftButtonDown="OnSliderPreviewMouseLeftButtonDown"
+            PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
+            PreviewMouseMove="OnSliderPreviewMouseMove"
+            PreviewMouseWheel="OnSliderPreviewMouseWheel" />
   </Grid>
 </UserControl>

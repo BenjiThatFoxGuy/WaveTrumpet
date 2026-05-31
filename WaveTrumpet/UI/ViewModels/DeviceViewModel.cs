@@ -22,9 +22,14 @@ namespace WaveTrumpet.UI.ViewModels
             get { return _device.DisplayName; }
         }
 
+        public string BaseIconGlyph
+        {
+            get { return _device.IconGlyph; }
+        }
+
         public string IconGlyph
         {
-            get { return IsMuted ? "" : _device.IconGlyph; }
+            get { return IsMuted ? "" : _device.IconGlyph; }
         }
 
         public double Volume

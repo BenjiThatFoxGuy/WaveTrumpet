@@ -1,6 +1,8 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace WaveTrumpet.UI.Controls
 {
@@ -30,10 +32,15 @@ namespace WaveTrumpet.UI.Controls
             typeof(VolumeSlider),
             new PropertyMetadata(false, OnVisualPropertyChanged));
 
+        private Border _peakMeter1;
+        private Border _peakMeter2;
+        private Thumb _thumb;
+
         public VolumeSlider()
         {
             InitializeComponent();
             Loaded += OnLoaded;
+            SizeChanged += OnSizeChanged;
         }
 
         public double Value
@@ -67,6 +74,12 @@ namespace WaveTrumpet.UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            CacheTemplateParts();
+            SyncVisualState();
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
             SyncVisualState();
         }
 
@@ -80,11 +93,93 @@ namespace WaveTrumpet.UI.Controls
             SyncVisualState();
         }
 
-        private void SyncVisualState()
+        private void OnSliderPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (SliderPart == null || VolumeBar == null || PeakBar == null)
+            SetValueFromPoint(e.GetPosition(SliderPart));
+            Mouse.Capture(SliderPart);
+            e.Handled = true;
+        }
+
+        private void OnSliderPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (SliderPart.IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed)
+            {
+                SetValueFromPoint(e.GetPosition(SliderPart));
+                e.Handled = true;
+            }
+        }
+
+        private void OnSliderPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (SliderPart.IsMouseCaptured)
+            {
+                Mouse.Capture(null);
+                e.Handled = true;
+            }
+        }
+
+        private void OnSliderPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ChangePositionByAmount(Math.Sign(e.Delta) * 2.0);
+            e.Handled = true;
+        }
+
+        private void CacheTemplateParts()
+        {
+            if (SliderPart == null)
             {
                 return;
+            }
+
+            SliderPart.ApplyTemplate();
+            _thumb = SliderPart.Template.FindName("SliderThumb", SliderPart) as Thumb;
+            _peakMeter1 = SliderPart.Template.FindName("PeakMeter1", SliderPart) as Border;
+            _peakMeter2 = SliderPart.Template.FindName("PeakMeter2", SliderPart) as Border;
+        }
+
+        private void SetValueFromPoint(Point point)
+        {
+            var width = Math.Max(1, SliderPart.ActualWidth);
+            var percent = point.X / width;
+            var nextValue = Bound((SliderPart.Maximum - SliderPart.Minimum) * percent + SliderPart.Minimum);
+            SetCurrentValue(ValueProperty, nextValue);
+
+            if (Math.Abs(SliderPart.Value - nextValue) > 0.01)
+            {
+                SliderPart.Value = nextValue;
+            }
+
+            SyncVisualState();
+        }
+
+        private void ChangePositionByAmount(double amount)
+        {
+            var nextValue = Bound(Value + amount);
+            SetCurrentValue(ValueProperty, nextValue);
+
+            if (Math.Abs(SliderPart.Value - nextValue) > 0.01)
+            {
+                SliderPart.Value = nextValue;
+            }
+
+            SyncVisualState();
+        }
+
+        private double Bound(double value)
+        {
+            return Math.Max(SliderPart.Minimum, Math.Min(SliderPart.Maximum, value));
+        }
+
+        private void SyncVisualState()
+        {
+            if (SliderPart == null)
+            {
+                return;
+            }
+
+            if (_thumb == null || _peakMeter1 == null || _peakMeter2 == null)
+            {
+                CacheTemplateParts();
             }
 
             if (Math.Abs(SliderPart.Value - Value) > 0.01)
@@ -92,10 +187,26 @@ namespace WaveTrumpet.UI.Controls
                 SliderPart.Value = Value;
             }
 
-            SliderPart.IsEnabled = !IsMuted;
-            VolumeBar.Value = IsMuted ? 0 : Value;
-            PeakBar.Value = IsMuted ? 0 : Math.Max(PeakLeft, PeakRight);
-            PeakBar.Opacity = IsMuted ? 0.15 : 0.35;
+            SliderPart.Opacity = IsMuted ? 0.55 : 1.0;
+            UpdatePeakMeters();
+        }
+
+        private void UpdatePeakMeters()
+        {
+            if (_thumb == null || _peakMeter1 == null || _peakMeter2 == null)
+            {
+                return;
+            }
+
+            var usableWidth = Math.Max(0, SliderPart.ActualWidth - _thumb.ActualWidth);
+            var volumePercent = Math.Max(0, Math.Min(100, Value)) / 100.0;
+            var peakLeftPercent = Math.Max(0, Math.Min(100, PeakLeft)) / 100.0;
+            var peakRightPercent = Math.Max(0, Math.Min(100, PeakRight)) / 100.0;
+
+            _peakMeter1.Width = IsMuted ? 0 : usableWidth * peakLeftPercent * volumePercent;
+            _peakMeter2.Width = IsMuted ? 0 : usableWidth * peakRightPercent * volumePercent;
+            _peakMeter1.Opacity = IsMuted ? 0.15 : 0.65;
+            _peakMeter2.Opacity = IsMuted ? 0.15 : 0.65;
         }
     }
 }

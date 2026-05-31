@@ -10,18 +10,18 @@
         AllowsTransparency="True"
         Background="Transparent"
         ShowInTaskbar="False"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        UseLayoutRounding="True"
         Deactivated="OnWindowDeactivated"
         PreviewKeyDown="OnWindowPreviewKeyDown">
-  <Border CornerRadius="12"
-          BorderThickness="1"
+  <Border BorderThickness="1"
           BorderBrush="{DynamicResource ThemeFlyoutBorderBrush}"
-          Background="{DynamicResource ThemeFlyoutBackgroundBrush}"
-          Padding="16">
+          Background="{DynamicResource ThemeFlyoutBackgroundBrush}">
     <Grid>
       <Grid.RowDefinitions>
+        <RowDefinition Height="44" />
         <RowDefinition Height="Auto" />
-        <RowDefinition Height="12" />
-        <RowDefinition Height="*" />
       </Grid.RowDefinitions>
 
       <Grid Grid.Row="0">
@@ -30,72 +30,74 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel>
-          <TextBlock Text="{Binding Header}" Style="{StaticResource FlyoutTitleTextStyle}" />
-          <TextBlock Text="{Binding Subtitle}" Style="{StaticResource FlyoutSecondaryTextStyle}" Margin="0,2,0,0" />
-        </StackPanel>
+        <TextBlock Margin="12,0,0,0"
+                   Text="{Binding Header}"
+                   Style="{StaticResource FlyoutWindowTitleTextStyle}" />
 
         <Button Grid.Column="1"
-                Content="✕"
-                Width="28"
-                Height="28"
-                Style="{StaticResource FlyoutButtonStyle}"
-                Click="OnCloseButtonClick" />
+                Style="{StaticResource FlyoutCaptionButtonStyle}"
+                Click="OnCloseButtonClick">
+          <TextBlock Style="{StaticResource FlyoutGlyphTextStyle}"
+                     FontSize="10"
+                     Text="&#xE711;" />
+        </Button>
       </Grid>
 
-      <ItemsControl Grid.Row="2" ItemsSource="{Binding Devices}">
+      <ItemsControl Grid.Row="1" ItemsSource="{Binding Devices}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
-            <Border BorderBrush="{DynamicResource ThemeFlyoutBorderBrush}"
-                    BorderThickness="1"
-                    CornerRadius="10"
-                    Background="{DynamicResource ThemeFlyoutChromeBrush}"
-                    Padding="12"
-                    Margin="0,0,0,10">
+            <Border BorderBrush="{DynamicResource ThemeFlyoutSeparatorBrush}"
+                    BorderThickness="0,0,0,1"
+                    Background="Transparent">
               <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="48" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="48" />
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="44" />
+                  <RowDefinition Height="54" />
                 </Grid.RowDefinitions>
 
-                <ToggleButton Grid.RowSpan="2"
-                              Width="36"
-                              Height="36"
-                              Margin="0,0,12,0"
-                              Style="{StaticResource FlyoutIconButtonStyle}"
-                              IsChecked="{Binding IsMuted, Mode=TwoWay}">
-                  <TextBlock Text="{Binding IconGlyph}"
-                             FontFamily="Segoe MDL2 Assets"
-                             FontSize="16"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Center" />
-                </ToggleButton>
+                <Border Height="44"
+                        Background="{DynamicResource ThemeDeviceHeaderBackgroundBrush}">
+                  <TextBlock Margin="12,0,32,0"
+                             Text="{Binding DisplayName}"
+                             Style="{StaticResource FlyoutDeviceTitleTextStyle}" />
+                </Border>
 
-                <TextBlock Grid.Column="1"
-                           Text="{Binding DisplayName}"
-                           Style="{StaticResource FlyoutBodyTextStyle}"
-                           VerticalAlignment="Center" />
+                <Grid Grid.Row="1" Height="{DynamicResource Mutable_DeviceItemCellHeight}">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{DynamicResource Mutable_IconCellWidth}" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{DynamicResource Mutable_VolumeCellWidth}" />
+                  </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="2"
-                           Text="{Binding VolumeText}"
-                           Style="{StaticResource FlyoutBodyTextStyle}"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center" />
+                  <ToggleButton Width="{DynamicResource Mutable_AppIconSize}"
+                                Height="{DynamicResource Mutable_AppIconSize}"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource FlyoutMuteButtonStyle}"
+                                IsChecked="{Binding IsMuted, Mode=TwoWay}">
+                    <Grid>
+                      <TextBlock Text="{Binding BaseIconGlyph}"
+                                 Style="{StaticResource FlyoutGlyphTextStyle}"
+                                 FontSize="{DynamicResource Mutable_DeviceVolumeTextFontSize}"
+                                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
+                                 Opacity="0.4" />
+                      <TextBlock Text="{Binding IconGlyph}"
+                                 Style="{StaticResource FlyoutGlyphTextStyle}"
+                                 FontSize="{DynamicResource Mutable_DeviceVolumeTextFontSize}"
+                                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}" />
+                    </Grid>
+                  </ToggleButton>
 
-                <controls:VolumeSlider Grid.Row="1"
-                                       Grid.Column="1"
-                                       Grid.ColumnSpan="2"
-                                       Margin="0,10,0,0"
-                                       Height="32"
-                                       Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       PeakLeft="{Binding PeakValueLeft}"
-                                       PeakRight="{Binding PeakValueRight}"
-                                       IsMuted="{Binding IsMuted}" />
+                  <controls:VolumeSlider Grid.Column="1"
+                                         PeakLeft="{Binding PeakValueLeft}"
+                                         PeakRight="{Binding PeakValueRight}"
+                                         Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         IsMuted="{Binding IsMuted}" />
+
+                  <TextBlock Grid.Column="2"
+                             Text="{Binding VolumeText}"
+                             Style="{StaticResource FlyoutDeviceVolumeTextStyle}" />
+                </Grid>
               </Grid>
             </Border>
           </DataTemplate>
